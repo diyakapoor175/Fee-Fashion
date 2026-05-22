@@ -1,0 +1,1906 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FashionHub - Your Ultimate Fashion Destination</title>
+    <link rel="icon" href="images/fashion logo.jpg" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <!-- SPLASH/LANDING PAGE -->
+    <div id="splashScreen" class="splash-screen active">
+        <div class="splash-content">
+            <div class="splash-logo">
+                <i class="bi bi-bag-heart"></i>
+                <h1>FashionHub</h1>
+            </div>
+            <p class="splash-tagline"><b>Discover Your Style</b></p>
+            <p class="splash-subtitle"><b>Premium Fashion for Everyone</b></p>
+            <button class="btn btn-primary btn-lg" onclick="enterSite()">Visit Site</button>
+            <p class="splash-footer">Explore Latest Trends & Exclusive Collections</p>
+        </div>
+        <div class="splash-background"></div>
+    </div>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="btn-close" id="closeCart" onclick="toggleCart()"></button>
+        </div>
+        <div id="cartItems" class="cart-items">
+            <p class="text-muted text-center mt-3">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="d-flex justify-content-between mb-3">
+                <strong>Subtotal:</strong>
+                <span id="subtotal">₹0.00</span>
+            </div>
+            <button class="btn btn-success w-100" id="checkoutBtn">Proceed to Checkout</button>
+            <button class="btn btn-secondary w-100 mt-2" onclick="toggleCart()">Continue Shopping</button>
+        </div>
+    </div>
+    <!-- Cart Overlay -->
+    <div id="cartOverlay" class="cart-overlay" onclick="toggleCart()"></div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="login-modal">
+        <div class="login-container">
+            <div class="login-header">
+                <h2>Sign In to FashionHub</h2>
+                <button class="btn-close-modal" onclick="closeLoginModal()"></button>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" class="form-control" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">
+                        Remember me
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mb-2">Sign In</button>
+                <p class="text-center text-muted">Don't have an account? <a href="#" onclick="switchToSignup(event)">Sign up</a></p>
+            </form>
+        </div>
+        <div class="login-backdrop" onclick="closeLoginModal()"></div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="login-modal">
+        <div class="login-container">
+            <div class="login-header">
+                <h2>Create Your Account</h2>
+                <button class="btn-close-modal" onclick="closeSignupModal()"></button>
+            </div>
+            <form id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" class="form-control" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email Address</label>
+                    <input type="email" id="signupEmail" class="form-control" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" class="form-control" placeholder="At least 6 characters" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" class="form-control" placeholder="Re-enter your password" required>
+                </div>
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                    <label class="form-check-label" for="agreeTerms">
+                        I agree to the Terms & Conditions
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-success w-100 mb-2">Create Account</button>
+                <p class="text-center text-muted">Already have an account? <a href="#" onclick="switchToLogin(event)">Sign in</a></p>
+            </form>
+        </div>
+        <div class="login-backdrop" onclick="closeSignupModal()"></div>
+    </div>
+    <div id="favoriteSidebar" class="favorite-sidebar">
+        <div class="favorite-header">
+            <h3><i class="bi bi-heart-fill"></i> My Wishlist</h3>
+            <button class="btn-close" id="closeFavorite" onclick="toggleFavorites()"></button>
+        </div>
+        <div id="favoriteItems" class="favorite-items">
+            <p class="text-muted text-center mt-3">No items in your wishlist</p>
+        </div>
+        <div class="favorite-footer">
+            <button class="btn btn-primary w-100" id="favCheckoutBtn">View All Favorites</button>
+            <button class="btn btn-secondary w-100 mt-2" onclick="toggleFavorites()">Continue Shopping</button>
+        </div>
+    </div>
+    <!-- Favorite Overlay -->
+    <div id="favoriteOverlay" class="favorite-overlay" onclick="toggleFavorites()"></div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="bi bi-bag"></i> FashionHub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto" id="mainNav">
+                    <li class="nav-item"><a class="nav-link active" href="#home" onclick="navigateTo('home')">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#products" onclick="navigateTo('products')">Products</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#mens" onclick="navigateTo('mens')">Men's</a></li>
+                            <li><a class="dropdown-item" href="#womens" onclick="navigateTo('womens')">Women's</a></li>
+                            <li><a class="dropdown-item" href="#kids" onclick="navigateTo('kids')">Kids</a></li>
+                            <li><a class="dropdown-item" href="#accessories" onclick="navigateTo('accessories')">Accessories</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#about" onclick="navigateTo('about')">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact" onclick="navigateTo('contact')">Contact</a></li>
+                </ul>
+                <form class="d-flex me-3" id="searchForm" onsubmit="performSearch(event)">
+                    <input class="form-control me-2" type="search" id="searchInput" placeholder="Search for products..." aria-label="Search">
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </form>
+                <ul class="navbar-nav">
+                    <li class="nav-item" id="userNavItem">
+                        <a class="nav-link" href="#signin" onclick="handleSignIn()"><i class="bi bi-person"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#favorites" onclick="handleFavorites()"><i class="bi bi-heart"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="#cart" onclick="toggleCart(event)">
+                            <i class="bi bi-cart"></i>
+                            <span id="cartBadge" class="position-absolute top-0 start-100 translate-middle badge bg-danger rounded-pill">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home (Hero) -->
+    <section id="home" class="hero py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="display-4">Welcome to FashionHub</h1>
+                    <p class="lead">Discover the latest trends in fashion</p>
+                    <a href="#products" class="btn btn-primary btn-lg">Shop Now</a>
+                </div>
+                <div class="col-md-6">
+                    <img src="images/fashion hub.jpg" class="img-fluid" alt="Fashion Model">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section id="featured" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Featured Products</h2>
+            <div id="featuredCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#featuredCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img src="images/Womens-Clothing.jpg" class="d-block w-100" alt="Women's Fashion">
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center">
+                                <div>
+                                    <h3>Women's Collection</h3>
+                                    <p>Explore our latest women's fashion trends.</p>
+                                    <a href="#womens" class="btn btn-primary">View Collection</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img src="images/men's collection.jpg" class="d-block w-100" alt="Men's Fashion">
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center">
+                                <div>
+                                    <h3>Men's Collection</h3>
+                                    <p>Discover stylish men's clothing for every occasion.</p>
+                                    <a href="#mens" class="btn btn-primary">View Collection</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img src="images/kids collection.jpg" class="d-block w-100" alt="Kids' Fashion">
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center">
+                                <div>
+                                    <h3>Kids' Collection</h3>
+                                    <p>Fun and comfortable clothing for your children.</p>
+                                    <a href="#kids" class="btn btn-primary">View Collection</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img src="images/occasionspecial.png" class="d-block w-100" alt="Special Occasions">
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center">
+                                <div>
+                                    <h3>Special Occasions</h3>
+                                    <p>Elegant outfits for your special moments.</p>
+                                    <a href="#accessories" class="btn btn-primary">View More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#featuredCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#featuredCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Arrivals Section -->
+    <section id="newarrivals" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4"><b> New Arrivals</b></h2>
+            <p class="text-center mb-5">Check out our latest collections just added to our store!</p>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card new-item">
+                        <div class="badge-new">NEW</div>
+                        <img src="images/sc1.jpg" class="card-img-top" alt="Summer Collection">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Summer Collection 2024', 2908, 'images/summer_dress.png')" data-product-name="Summer Collection 2024"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Summer Collection 2024</h5>
+                            <p class="card-text">Fresh and vibrant summer styles for the season.</p>
+                            <p class="card-text"><strong class="text-primary">₹1430</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Summer Collection 2024', 2908, 'images/sc1.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card new-item">
+                        <div class="badge-new">NEW</div>
+                        <img src="images/sc2.jpg" class="card-img-top" alt="Silk Fashion">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Luxury Silk Line', 3818, 'images/silk_blouse.png')" data-product-name="Luxury Silk Line"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Luxury Silk Line</h5>
+                            <p class="card-text">Premium silk clothing for the modern professional.</p>
+                            <p class="card-text"><strong class="text-primary">₹2500</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Luxury Silk Line', 3818, 'images/silk_blouse.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card new-item">
+                        <div class="badge-new">NEW</div>
+                        <img src="images/sc3.jpg" class="card-img-top" alt="Accessories">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Accessory Bundle', 74.99, 'images/Necklace Set.webp')" data-product-name="Accessory Bundle"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">codset</h5>
+                            <p class="card-text">Complete collection of codset.</p>
+                            <p class="card-text"><strong class="text-primary">₹1450</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('codset', 44.99, 'images/sc3.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card new-item">
+                        <div class="badge-new">NEW</div>
+                        <img src="images/sc4.jpg" class="card-img-top" alt="Casual Wear">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Casual Wear Collection', 40.99, 'images/casual_shirt.png')" data-product-name="Casual Wear Collection"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Casual Wear Collection</h5>
+                            <p class="card-text">Perfect casual outfits for everyday comfort.</p>
+                            <p class="card-text"><strong class="text-primary">₹1350</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Casual Wear Collection', 1350, 'images/casual_shirt.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card new-item">
+                        <div class="badge-new">NEW</div>
+                        <img src="images/shirt_white.png" class="card-img-top" alt="Denim Collection">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Premium Denim Line', 64.99, 'images/jeans_.png')" data-product-name="Premium Denim Line"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Premium quality</h5>
+                            <p class="card-text">Where comfort meets quiet luxury.</p>
+                            <p class="card-text"><strong class="text-primary">₹1300</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Premium Denim Line', 1300, 'images/sc5.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>e
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card new-item">
+                        <div class="badge-new">NEW</div>
+                        <img src="images/sc6.jpg" class="card-img-top" alt="Smart Collection">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Smart Accessories', 79.99, 'images/watch_.png')" data-product-name="Smart Accessories"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Soft tones. Strong presence.</h5>
+                            <p class="card-text">best peace color</p>
+                            <p class="card-text"><strong class="text-primary">₹1350</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Smart Accessories', 1350, 'images/sc6.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card new-item">
+                        <div class="badge-new">NEW</div>
+                        <img src="images/sc7.jpg" class="card-img-top" alt="Midi Fashion">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Midi Fashion Essentials', 59.99, 'images/Midi Skirt.webp')" data-product-name="Midi Fashion Essentials"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Summer style</h5>
+                            <p class="card-text">Elegant pieces for all occasions.</p>
+                            <p class="card-text"><strong class="text-primary">₹1220</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Midi Fashion Essentials', 1200, 'images/sc7.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+    <!-- Sales & Special Offers Section -->
+    <section id="sales" class="py-5 bg-danger bg-opacity-10">
+        <div class="container">
+            <h2 class="text-center mb-4"><b>Special Offers & Sales</b></h2>
+            <p class="text-center mb-5">Limited time discounts on selected items - Shop now before they're gone!</p>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card sale-item">
+                        <div class="badge-sale">-10% OFF</div>
+                        <img src="images/set 1.png" class="card-img-top sale-image" alt="Formal Wear Sale">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Formal Shirt Bundle Sale', 41.99, 'images/Formal Shirt.webp')" data-product-name="Formal Shirt Bundle Sale"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Floral dress</h5>
+                            <p class="card-text"><span class="text-muted text-decoration-line-through">₹1770</span></p>
+                            <p class="card-text"><strong class="text-danger sale-price">₹1600</strong></p>
+                            <button class="btn btn-danger w-100" onclick="addToCart('Formal Shirt Bundle Sale', 1600, 'images/Formal Shirt.webp')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card sale-item">
+                        <div class="badge-sale">-20% OFF</div>
+                        <img src="images/set2.jpg" class="card-img-top sale-image" alt="Blazer Sale">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Premium Blazer Sale', 59.99, 'images/blazer_.png')" data-product-name="Premium Blazer Sale"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Blush pink dress</h5>
+                            <p class="card-text"><span class="text-muted text-decoration-line-through">₹2225</span></p>
+                            <p class="card-text"><strong class="text-danger sale-price">₹1780</strong></p>
+                            <button class="btn btn-danger w-100" onclick="addToCart('Premium Blazer Sale', 1780, 'images/blazer_.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card sale-item">
+                        <div class="badge-sale">-30% OFF</div>
+                        <img src="images/set3.jpg" class="card-img-top sale-image" alt="Dress Sale">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Evening Dress Special', 74.99, 'images/dress.webp')" data-product-name="Evening Dress Special"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Black & wine-toned gown</h5>
+                            <p class="card-text"><span class="text-muted text-decoration-line-through">₹1900</span></p>
+                            <p class="card-text"><strong class="text-danger sale-price">₹1545</strong></p>
+                            <button class="btn btn-danger w-100" onclick="addToCart('Evening Dress Special', 1545, 'images/set3.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card sale-item">
+                        <div class="badge-sale">-25% OFF</div>
+                        <img src="images/set4.jpg" class="card-img-top sale-image" alt="Jeans Sale">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Premium Jeans Sale', 59.99, 'images/jeans_.png')" data-product-name="Premium Jeans Sale"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Sheer top + chocolate skirt</h5>
+                            <p class="card-text"><span class="text-muted text-decoration-line-through">₹4999</span></p>
+                            <p class="card-text"><strong class="text-danger sale-price">₹2599</strong></p>
+                            <button class="btn btn-danger w-100" onclick="addToCart('Premium Jeans Sale', 2599, 'images/jeans_.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card sale-item">
+                        <div class="badge-sale">-35% OFF</div>
+                        <img src="images/set5.png" class="card-img-top sale-image" alt="Watch Sale">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Designer Watch Sale', 64.99, 'images/watch_.png')" data-product-name="Designer Watch Sale"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Pink top + light denim</h5>
+                            <p class="card-text"><span class="text-muted text-decoration-line-through">₹2599</span></p>
+                            <p class="card-text"><strong class="text-danger sale-price">₹1899</strong></p>
+                            <button class="btn btn-danger w-100" onclick="addToCart('Designer Watch Sale', 1899, 'images/watch_.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card sale-item">
+                        <div class="badge-sale">-20% OFF</div>
+                        <img src="images/set6.png" class="card-img-top sale-image" alt="Bag Sale">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Luxury Tote Bag Sale', 71.99, 'images/tote_bag.png')" data-product-name="Luxury Tote Bag Sale"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">One-shoulder knit + flared jeans</h5>
+                            <p class="card-text"><span class="text-muted text-decoration-line-through">₹2599</span></p>
+                            <p class="card-text"><strong class="text-danger sale-price">₹1899</strong></p>
+                            <button class="btn btn-danger w-100" onclick="addToCart('Luxury Tote Bag Sale', 1899, 'images/tote_bag.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card sale-item">
+                        <div class="badge-sale">-28% OFF</div>
+                        <img src="images/set7.jpg" class="card-img-top sale-image" alt="Midi Sale">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Elegant Midi Skirt Sale', 46.79, 'images/Midi Skirt.webp')" data-product-name="Elegant Midi Skirt Sale"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Indian fusion</h5>
+                            <p class="card-text"><span class="text-muted text-decoration-line-through">₹2199</span></p>
+                            <p class="card-text"><strong class="text-danger sale-price">₹1599</strong></p>
+                            <button class="btn btn-danger w-100" onclick="addToCart('Elegant Midi Skirt Sale', 1599, 'images/Midi Skirt.webp')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card sale-item">
+                        <div class="badge-sale">-32% OFF</div>
+                        <img src="images/set8.png" class="card-img-top sale-image" alt="Shirt Sale">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Premium Casual Shirt Sale', 50.99, 'images/casual_shirt.png')" data-product-name="Premium Casual Shirt Sale"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Blue printed top denim</h5>
+                            <p class="card-text"><span class="text-muted text-decoration-line-through">₹2199</span></p>
+                            <p class="card-text"><strong class="text-danger sale-price">₹1899</strong></p>
+                            <button class="btn btn-danger w-100" onclick="addToCart('Premium Casual Shirt Sale', 1899, 'images/casual_shirt.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+    <!-- Products Section -->
+    <section id="products" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4"><b>Our Products</b></h2>
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="btn-group w-100" role="group">
+                        <button type="button" class="btn btn-outline-primary" onclick="filterProducts('all')">All Products</button>
+                        <button type="button" class="btn btn-outline-primary" onclick="filterProducts('new')">New Arrivals</button>
+                        <button type="button" class="btn btn-outline-primary" onclick="filterProducts('sale')">On Sale</button>
+                        <button type="button" class="btn btn-outline-primary" onclick="filterProducts('popular')">Most Popular</button>
+                    </div>
+                </div>
+            </div>
+            <div id="productsContainer" class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card" data-product="casual_shirt" data-price="19.99" data-category="mens">
+                        <img src="images/casual tshirt.jpg" class="card-img-top" alt="T-Shirt">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Casual T-Shirt', 19.99, 'images/casual tshirt.jpg')" data-product-name="Casual T-Shirt"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Casual T-Shirt</h5>
+                            <p class="card-text">Comfortable and stylish t-shirt for everyday wear.</p>
+                            <p class="card-text"><strong class="text-primary">₹999</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Casual T-Shirt', 999, 'images/casual tshirt.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card" data-product="jeans" data-price="49.99" data-category="mens">
+                        <img src="images/denim jeans.png" class="card-img-top" alt="Jeans">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Denim Jeans', 49.99, 'images/denim jeans.png')" data-product-name="Denim Jeans"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Denim Jeans</h5>
+                            <p class="card-text">Classic denim jeans that never go out of style.</p>
+                            <p class="card-text"><strong class="text-primary">₹1299</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Denim Jeans', 1299, 'images/denim jeans.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card" data-product="dress" data-price="79.99" data-category="womens">
+                        <img src="images/dresss.png" class="card-img-top" alt="Dress">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Elegant Dress', 79.99, 'images/dresss.png')" data-product-name="Elegant Dress"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Elegant Dress</h5>
+                            <p class="card-text">Perfect dress for special occasions.</p>
+                            <p class="card-text"><strong class="text-primary">₹1599</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Elegant Dress', 1599, 'images/dresss.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card" data-product="graphic_tee" data-price="24.99" data-category="kids">
+                        <img src="images/graphic tshirt product.png" class="card-img-top" alt="Graphic T-Shirt">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Graphic T-Shirt Kids', 24.99, 'images/graphic tshirt product.png')" data-product-name="Graphic T-Shirt Kids"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Graphic T-Shirt Kids</h5>
+                            <p class="card-text">Fun and colorful graphic design.</p>
+                            <p class="card-text"><strong class="text-primary">₹699</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Graphic T-Shirt Kids', 699, 'images/graphic tshirt product.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card" data-product="watch" data-price="59.99" data-category="accessories">
+                        <img src="images/watch.png" class="card-img-top" alt="Watch">
+                        <div class="card-body">
+                            <h5 class="card-title">Leather Watch</h5>
+                            <p class="card-text">Elegant watch to complement any outfit.</p>
+                            <p class="card-text"><strong class="text-primary">₹599</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Leather Watch', 599, 'watch.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card" data-product="bag" data-price="69.99" data-category="accessories">
+                        <img src="images/tode bag.png" class="card-img-top" alt="Bag">
+                        <div class="card-body">
+                            <h5 class="card-title">Tote Bag</h5>
+                            <p class="card-text">Spacious and stylish tote for everyday use.</p>
+                            <p class="card-text"><strong class="text-primary">₹899</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Tote Bag', 899, 'tode bag.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card" data-product="blazer_outfit" data-price="94.99" data-category="mens">
+                        <img src="images/blazzer.png" class="card-img-top" alt="Blazer Outfit">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Business Blazer Set', 94.99, 'blazzer.png')" data-product-name="Business Blazer Set"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Business Blazer Set</h5>
+                            <p class="card-text">Professional blazer perfect for office meetings.</p>
+                            <p class="card-text"><strong class="text-primary">₹949</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Business Blazer Set', 949, 'blazzer.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card" data-product="midi_skirt_dress" data-price="39.99" data-category="womens">
+                        <img src="images/skirts.png" class="card-img-top" alt="Midi Skirt Dress">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Midi Skirt Dress', 39.99, 'skirts.png')" data-product-name="Midi Skirt Dress"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Midi Skirt Dress</h5>
+                            <p class="card-text">Chic midi skirt perfect for weekend outings.</p>
+                            <p class="card-text"><strong class="text-primary">₹1499</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Midi Skirt Dress', 1499, 'skirts.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card" data-product="kids_party" data-price="34.99" data-category="kids">
+                        <img src="images/kid party wear.png" class="card-img-top" alt="Kids Party Wear">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Kids Party Wear', 34.99, 'kid party wear.png')" data-product-name="Kids Party Wear"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Kids Party Wear</h5>
+                            <p class="card-text">Adorable party dress for special celebrations.</p>
+                            <p class="card-text"><strong class="text-primary">₹899</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Kids Party Wear', 899, 'kid party wear.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+    <!-- Men's Section -->
+    <section id="mens" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center mb-4"><b>Men's Clothing</b></h2>
+            <p class="text-center mb-5">Discover our collection of stylish and comfortable men's clothing for every occasion.</p>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/tshirt.png" class="card-img-top" alt="Men's Shirt">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Formal Shirt', 39.99, 'tshirt.png')" data-product-name="Formal Shirt"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Formal Shirt</h5>
+                            <p class="card-text">Elegant formal shirt perfect for office or events.</p>
+                            <p class="card-text"><strong class="text-primary">₹699</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Formal Shirt', 699, 'tshirt.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/chinos.png" class="card-img-top" alt="Men's Pants">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Chinos', 29.99, 'chinos.png')" data-product-name="Chinos"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Chinos</h5>
+                            <p class="card-text">Comfortable chinos for casual and semi-formal wear.</p>
+                            <p class="card-text"><strong class="text-primary">₹799</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Chinos', 799, 'chinos.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/suit blazer.png" class="card-img-top" alt="Men's Jacket">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Blazer', 89.99, 'suit blazer.png')" data-product-name="Blazer"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Blazer</h5>
+                            <p class="card-text">Classic blazer to elevate your style.</p>
+                            <p class="card-text"><strong class="text-primary">₹2199</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Blazer', 2199, 'suit blazer.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/men casual tshirt.png" class="card-img-top" alt="Casual Shirt">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Casual Shirt', 34.99, 'men casual tshirt.png')" data-product-name="Casual Shirt"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Casual Shirt</h5>
+                            <p class="card-text">Relaxed fit shirt for weekend outings.</p>
+                            <p class="card-text"><strong class="text-primary">₹699</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Casual Shirt', 699, 'men casual tshirt.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/denim jeans.png" class="card-img-top" alt="Premium Jeans">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Premium Denim', 59.99, 'denim jeans.png')" data-product-name="Premium Denim"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Premium Denim</h5>
+                            <p class="card-text">High quality jeans with perfect fit.</p>
+                            <p class="card-text"><strong class="text-primary">₹999</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Premium Denim', 999, 'denim jeans.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/cotton chinoss.png" class="card-img-top" alt="Chinos Pants">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Cotton Chinos', 31.99, 'cotton chinoss.png')" data-product-name="Cotton Chinos"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Cotton Chinos</h5>
+                            <p class="card-text">Premium cotton chinos for comfort and style.</p>
+                            <p class="card-text"><strong class="text-primary">₹799</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Cotton Chinos', 799, 'cotton chinoss.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/oxford shirt.png" class="card-img-top" alt="Work Shirt">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Oxford Work Shirt', 42.99, 'oxford shirt.png')" data-product-name="Oxford Work Shirt"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Oxford Work Shirt</h5>
+                            <p class="card-text">Premium oxford fabric shirt for professionals.</p>
+                            <p class="card-text"><strong class="text-primary">₹699</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Oxford Work Shirt', 699, 'oxford shirt.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/baggy jeans.png" class="card-img-top" alt="Baggy Jeans">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Baggy Jeans', 64.99, 'baggy jeans.png')" data-product-name="Baggy Jeans"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Baggy Jeans</h5>
+                            <p class="card-text">Baggy Hip Hop Jeans </p>
+                            <p class="card-text"><strong class="text-primary">₹899</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Baggy Jeans', 899, 'baggy jeans.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/slim jeans.png" class="card-img-top" alt="Slim Fit Jeans">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Slim Fit Jeans', 54.99, 'slim jeans.png')" data-product-name="Slim Fit Jeans"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Slim Fit Jeans</h5>
+                            <p class="card-text">Modern slim fit jeans for contemporary style.</p>
+                            <p class="card-text"><strong class="text-primary">₹699</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Slim Fit Jeans', 699, 'slim jeans.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+    <!-- Women's Section -->
+    <section id="womens" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4"><b>Women's Clothing</b></h2>
+            <p class="text-center mb-5">Explore our trendy and elegant women's fashion collection.</p>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/summer dress.png" class="card-img-top" alt="Women's Dress">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Summer Dress', 49.99, 'summer dresss.png')" data-product-name="Summer Dress"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Summer Dress</h5>
+                            <p class="card-text">Light and flowy dress for warm weather.</p>
+                            <p class="card-text"><strong class="text-primary">₹999</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Summer Dress', 999, 'summer dresss.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/alterneck.png" class="card-img-top" alt="Women's Blouse">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Silk Blouse', 39.99, 'images/silk_blouse.png')" data-product-name="Silk Blouse"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Alterneck Top</h5>
+                            <p class="card-text">Effortless elegance in every thread.</p>
+                            <p class="card-text"><strong class="text-primary">₹599</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Silk Blouse', 599, 'images/silk_blouse.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/summer outfit.png" class="card-img-top" alt="Women's Skirt">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Midi Skirt', 34.99, 'images/Midi Skirt.webp')" data-product-name="Midi Skirt"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Midi Skirt</h5>
+                            <p class="card-text">Versatile midi skirt for various occasions.</p>
+                            <p class="card-text"><strong class="text-primary">₹599</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Midi Skirt', 599, 'images/Midi Skirt.webp')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/sweater top.png" class="card-img-top" alt="Sweater Top">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Sweater Top', 49.99, 'images/sweater top.png')" data-product-name="Sweater Top"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Sweater Top</h5>
+                            <p class="card-text">Cozy sweater top for chilly days.</p>
+                            <p class="card-text"><strong class="text-primary">₹599</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Sweater Top', 599, 'images/sweater top.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/ivory bliss.png" class="card-img-top" alt="Ivory Bliss Ribbed Lounge Set">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Ivory Bliss Ribbed Lounge Set', 99.99, 'images/ivory bliss.png')" data-product-name="Ivory Bliss Ribbed Lounge Set"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Ivory Bliss Ribbed Lounge Set</h5>
+                            <p class="card-text">sounds premium, cozy, and aesthetic.</p>
+                            <p class="card-text"><strong class="text-primary">₹999</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Ivory Bliss Ribbed Lounge Set', 999, 'images/ivory bliss.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/summer tops.png" class="card-img-top" alt="summer tops">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'summer tops', 36.99, 'images/summer tops.png')" data-product-name="summer tops"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">summer tops</h5>
+                            <p class="card-text">Breathable linen blouse for warm weather style.</p>
+                            <p class="card-text"><strong class="text-primary">₹599</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('summer tops', 599, 'images/summer tops.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/ripped jeanss.png" class="card-img-top" alt="Ripped Jeans">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Ripped Jeans', 39.99, 'images/ripped jeanss.png')" data-product-name="Ripped Jeans"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Ripped Jeans</h5>
+                            <p class="card-text">Stylish ripped jeans for a casual look.</p>
+                            <p class="card-text"><strong class="text-primary">₹899</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Ripped Jeans', 899, 'images/ripped jeanss.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/baggy jeans.png" class="card-img-top" alt="Baggy Jeans">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Baggy Jeans', 34.99, 'images/baggy jeans.png')" data-product-name="Baggy Jeans"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Baggy Jeans</h5>
+                            <p class="card-text">Comfortable baggy jeans for a relaxed fit.</p>
+                            <p class="card-text"><strong class="text-primary">₹899</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Baggy Jeans', 899, 'images/baggy jeans.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/brown jeans.png" class="card-img-top" alt="Brown Jeans">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Brown Jeans', 39.99, 'images/brown jeans.png')" data-product-name="Brown Jeans"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Brown Jeans</h5>
+                            <p class="card-text">Classic brown jeans for a timeless look.</p>
+                            <p class="card-text"><strong class="text-primary">₹999</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Brown Jeans', 999, 'images/brown jeans.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+    <!-- Kids Section -->
+    <section id="kids" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center mb-4"><b>Kids' Clothing</b></h2>
+            <p class="text-center mb-5">Fun and comfortable clothing for your little ones.</p>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/graphic t shirt.jpg" class="card-img-top" alt="graphic t shirt">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Graphic T-Shirt', 17.99, 'images/graphic t shirt.jpg')" data-product-name="Graphic T-Shirt"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Graphic T-Shirt</h5>
+                            <p class="card-text">Colorful t-shirt with fun designs for kids.</p>
+                            <p class="card-text"><strong class="text-primary">₹399</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Graphic T-Shirt', 399, 'images/graphic t shirt.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/demiin shorts.jpg" class="card-img-top" alt="Kids' Shorts">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Denim Shorts', 19.99, 'images/demiin shorts.jpg')" data-product-name="Denim Shorts"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Denim Shorts</h5>
+                            <p class="card-text">Durable shorts perfect for playtime.</p>
+                            <p class="card-text"><strong class="text-primary">₹299</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Denim Shorts', 299, 'images/demiin shorts.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/Girls casual set.png" class="card-img-top" alt="Kids' Dress">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Girls Casual Set', 24.99, 'images/Girls casual set.png')" data-product-name="Girls Casual Set"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Girls Casual Set</h5>
+                            <p class="card-text">Cute and comfortable set for everyday wear.</p>
+                            <p class="card-text"><strong class="text-primary">₹599</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Girls Casual Set', 599, 'images/Girls casual set.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/kidsss.png" class="card-img-top" alt="kidsss">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Jogger set', 14.99, 'images/kidsss.png')" data-product-name="Jogger set"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Jogger set</h5>
+                            <p class="card-text">Comfortable everyday t-shirt for kids.</p>
+                            <p class="card-text"><strong class="text-primary">₹299</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Jogger set', 299, 'images/kidsss.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/kids jeans.jpg" class="card-img-top" alt="Kids Jeans">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Kids Jeans', 24.99, 'images/kids jeans.jpg')" data-product-name="Kids Jeans"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Kids Jeans</h5>
+                            <p class="card-text">Comfortable and durable jeans for kids.</p>
+                            <p class="card-text"><strong class="text-primary">₹399</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Kids Jeans', 399, 'images/kids jeans.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/summer dresss.png" class="card-img-top" alt="Summer Outfit">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Summer Outfit Kids', 26.99, 'images/summer dresss.png')" data-product-name="Summer Outfit Kids"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Summer Outfit</h5>
+                            <p class="card-text">Light and breezy outfit for summer days.</p>
+                            <p class="card-text"><strong class="text-primary">₹599</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Summer Outfit Kids', 599, 'images/summer dresss.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/two peice suit.jpg" class="card-img-top" alt="two peice suit">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'two peice suit', 19.99, 'images/two peice suit.jpg')" data-product-name="two peice suit"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">two peice suit</h5>
+                            <p class="card-text">smart and classy look.</p>
+                            <p class="card-text"><strong class="text-primary">₹599</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('two peice suit', 599, 'images/two peice suit.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/tshirtt.png" class="card-img-top" alt="T-Shirt">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Colorful T-Shirt', 19.99, 'images/tshirtt.png')" data-product-name="Colorful T-Shirt"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Colorful T-Shirt</h5>
+                            <p class="card-text">Fun and colorful t-shirt for kids.</p>
+                            <p class="card-text"><strong class="text-primary">₹299</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Colorful T-Shirt', 299, 'images/tshirtt.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/formal tee.png" class="card-img-top" alt="Formal Tee">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Formal Tee', 24.99, 'images/formal tee.png')" data-product-name="Formal Tee"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Formal Tee</h5>
+                            <p class="card-text">Elegant and comfortable formal t-shirt.</p>
+                            <p class="card-text"><strong class="text-primary">₹299</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Formal Tee', 299, 'images/formal tee.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Accessories Section -->
+    <section id="accessories" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4"><b>Accessories</b></h2>
+            <p class="text-center mb-5">Complete your look with our stylish accessories collection.</p>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/tode baggg.png" class="card-img-top" alt="Watch">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Classic Everyday Tote', 59.99, 'images/tode baggg.png')" data-product-name="Classic Everyday Tote"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Classic Everyday Tote</h5>
+                            <p class="card-text">Elegant tote for everyday use.</p>
+                            <p class="card-text"><strong class="text-primary">₹5999</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Classic Everyday Tote', 5999, 'images/tode baggg.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/coach bag.png" class="card-img-top" alt="Bag">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Coach Bag', 79.99, 'images/coach bag.png')" data-product-name="Coach Bag"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Coach Bag</h5>
+                            <p class="card-text">Elegant and spacious bag for everyday use.</p>
+                            <p class="card-text"><strong class="text-primary">₹10000</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Coach Bag', 10000, 'images/coach bag.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/LV Bags.jpg" class="card-img-top" alt="Jewelry">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Louis Vuitton Bag', 199.99, 'images/LV Bags.jpg')" data-product-name="Louis Vuitton Bag"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Louis Vuitton Bag</h5>
+                            <p class="card-text">Luxurious handbag from the iconic brand.</p>
+                            <p class="card-text"><strong class="text-primary">₹15000</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Louis Vuitton Bag', 15000, 'images/LV Bags.jpg')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/Fashion belt.png" class="card-img-top" alt="Belt">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Fashion Belt', 24.99, 'images/Fashion belt.png')" data-product-name="Fashion Belt"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Fashion Belt</h5>
+                            <p class="card-text">Stylish belt to cinch your waist perfectly.</p>
+                            <p class="card-text"><strong class="text-primary">₹299</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Fashion Belt', 299, 'images/Fashion belt.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/scarf.png" class="card-img-top" alt="Scarf">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Silk Scarf', 34.99, 'images/scarf.png')" data-product-name="Silk Scarf"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Silk Scarf</h5>
+                            <p class="card-text">Luxurious silk scarf for elegant styling.</p>
+                            <p class="card-text"><strong class="text-primary">₹599</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Silk Scarf', 599, 'images/scarf.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/sunglasses.png" class="card-img-top" alt="Sunglasses">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Sunglasses', 49.99, 'images/sunglasses.png')" data-product-name="Sunglasses"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Sunglasses</h5>
+                            <p class="card-text">Stylish sunglasses for sun protection.</p>
+                            <p class="card-text"><strong class="text-primary">₹799</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Sunglasses', 799, 'images/sunglasses.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/bracelet.png" class="card-img-top" alt="Bracelet">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Bracelet', 29.99, 'images/bracelet.png')" data-product-name="Bracelet"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Bracelet</h5>
+                            <p class="card-text">Elegant bracelet for adding a touch of glamour.</p>
+                            <p class="card-text"><strong class="text-primary">₹399</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Bracelet', 399, 'images/bracelet.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/necklace.png" class="card-img-top" alt="Necklace">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Necklace', 39.99, 'images/necklace.png')" data-product-name="Necklace"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Necklace</h5>
+                            <p class="card-text">Elegant necklace for adding a touch of glamour.</p>
+                            <p class="card-text"><strong class="text-primary">₹299</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Necklace', 299, 'images/necklace.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card product-card">
+                        <img src="images/rings.png" class="card-img-top" alt="Rings">
+                        <div class="card-body">
+                            <button class="heart-icon" onclick="addToFavorites(event, 'Rings', 49.99, 'images/rings.png')" data-product-name="Rings"><i class="bi bi-heart"></i></button>
+                            <h5 class="card-title">Rings</h5>
+                            <p class="card-text">Elegant rings for adding a touch of glamour.</p>
+                            <p class="card-text"><strong class="text-primary">₹299</strong></p>
+                            <button class="btn btn-primary w-100" onclick="addToCart('Rings', 299, 'images/rings.png')">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <!-- About -->
+    <section id="about" class="bg-light py-5">
+        <div class="container">
+            <h1 class="text-center mb-4"><b>About Us</b></h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Our Story</h4>
+                    <p>Founded in 2020, FashionHub started as a small boutique with a passion for fashion. We have grown into a leading online clothing store, offering a wide range of styles for men, women, and children.</p>
+                </div>
+                <div class="col-md-6">
+                    <h4>Our Mission</h4>
+                    <p>At FashionHub, we believe in providing high-quality clothing that combines comfort, style, and affordability. Our collection features the latest trends and timeless classics to suit every occasion.</p>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <h5>Quality</h5>
+                    <p>We source the best materials to ensure durability and comfort.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Style</h5>
+                    <p>Our designs are inspired by the latest fashion trends.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Affordability</h5>
+                    <p>We offer competitive prices without compromising on quality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <h1 class="text-center mb-4"><b>Contact Us</b></h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Get in Touch</h4>
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="emailContact" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="emailContact" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="subject" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="sendBtn">Send Message</button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <h4>Visit Us</h4>
+                    <p><strong>Address:</strong><br>123 Fashion Street<br>Style City, SC 12345</p>
+                    <p><strong>Phone:</strong><br>(123) 456-7890</p>
+                    <p><strong>Email:</strong><br>info@fashionhub.com</p>
+                    <p><strong>Hours:</strong><br>Monday - Friday: 9am - 6pm<br>Saturday: 10am - 4pm<br>Sunday: Closed</p>
+                    <h5>Follow Us</h5>
+                    <a href="#" class="me-3">Facebook</a>
+                    <a href="#" class="me-3">Instagram</a>
+                    <a href="#" class="me-3">Twitter</a>
+                </div>
+            </div>
+            <div class="row mt-5">
+                    <div class="col-12 text-center">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Splash Screen Handler
+        function enterSite() {
+            const splashScreen = document.getElementById('splashScreen');
+            splashScreen.classList.remove('active');
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+            }, 500);
+            showNotification('Welcome to FashionHub!');
+        }
+
+        // Shopping Cart Functionality
+        let cart = [];
+
+        function addToCart(name, price, image) {
+            const item = {
+                id: Date.now(),
+                name: name,
+                price: price,
+                image: image,
+                quantity: 1
+            };
+
+            const existingItem = cart.find(p => p.name === name);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push(item);
+            }
+
+            updateCartDisplay();
+            showNotification(`${name} added to cart!`);
+        }
+
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCartDisplay();
+        }
+
+        function updateQuantity(itemId, quantity) {
+            const item = cart.find(p => p.id === itemId);
+            if (item) {
+                item.quantity = Math.max(1, quantity);
+                updateCartDisplay();
+            }
+        }
+
+        function updateCartDisplay() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            const badge = document.getElementById('cartBadge');
+            const subtotalSpan = document.getElementById('subtotal');
+
+            badge.textContent = cart.length;
+
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<p class="text-muted text-center mt-3">Your cart is empty</p>';
+                subtotalSpan.textContent = '₹0.00';
+                return;
+            }
+
+            let subtotal = 0;
+            cartItemsDiv.innerHTML = cart.map(item => {
+                subtotal += item.price * item.quantity;
+                return `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="cart-item-details">
+                            <h6>${item.name}</h6>
+                            <p class="mb-0">₹${item.price.toFixed(2)}</p>
+                        </div>
+                        <div class="cart-item-controls">
+                            <input type="number" min="1" value="${item.quantity}" onchange="updateQuantity(${item.id}, this.value)" class="qty-input">
+                            <button class="btn-remove" onclick="removeFromCart(${item.id})">×</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            subtotalSpan.textContent = '₹' + subtotal.toFixed(2);
+        }
+
+        function toggleCart(e) {
+            if (e) e.preventDefault();
+            const sidebar = document.getElementById('cartSidebar');
+            const overlay = document.getElementById('cartOverlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function showNotification(message) {
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-success notification';
+            alert.textContent = message;
+            document.body.appendChild(alert);
+
+            setTimeout(() => {
+                alert.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 300);
+            }, 2000);
+        }
+
+        // Navigation Functions
+        function navigateTo(section) {
+            const element = document.getElementById(section);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Sign In Handler
+        function handleSignIn() {
+            openLoginModal();
+        }
+
+        // Favorites Handler
+        function handleFavorites() {
+            toggleFavorites();
+        }
+
+        // Search Functionality
+        function performSearch(event) {
+            event.preventDefault();
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!searchQuery) {
+                alert('Please enter a search term');
+                return;
+            }
+
+            const productCards = document.querySelectorAll('.product-card');
+            let found = 0;
+
+            productCards.forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const text = card.querySelector('.card-text').textContent.toLowerCase();
+
+                if (title.includes(searchQuery) || text.includes(searchQuery)) {
+                    card.parentElement.style.display = 'block';
+                    found++;
+                } else {
+                    card.parentElement.style.display = 'none';
+                }
+            });
+
+            if (found === 0) {
+                alert(`No products found matching "${searchQuery}"`);
+            } else {
+                showNotification(`Found ${found} product(s) matching your search!`);
+                navigateTo('products');
+            }
+        }
+
+        // Filter Products
+        function filterProducts(filter) {
+            const productCards = document.querySelectorAll('.product-card');
+            
+            productCards.forEach(card => {
+                if (filter === 'all') {
+                    card.parentElement.style.display = 'block';
+                } else if (filter === 'new') {
+                    card.parentElement.style.display = 'block';
+                } else if (filter === 'sale') {
+                    const price = parseFloat(card.getAttribute('data-price'));
+                    card.parentElement.style.display = price > 50 ? 'block' : 'none';
+                } else if (filter === 'popular') {
+                    card.parentElement.style.display = 'block';
+                }
+            });
+
+            showNotification(`Filtered by ${filter.charAt(0).toUpperCase() + filter.slice(1)}`);
+        }
+
+        // Contact Form Handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.querySelector('#contact form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('emailContact').value;
+                    const subject = document.getElementById('subject').value;
+                    const message = document.getElementById('message').value;
+
+                    if (!name || !email || !subject || !message) {
+                        alert('Please fill in all fields');
+                        return;
+                    }
+
+                    // Simulate form submission
+                    showNotification('Message sent successfully! We will contact you soon.');
+                    
+                    // Reset form
+                    contactForm.reset();
+                });
+            }
+
+            // Checkout Handler
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            if (checkoutBtn) {
+                checkoutBtn.addEventListener('click', function() {
+                    if (cart.length === 0) {
+                        alert('Your cart is empty');
+                        return;
+                    }
+
+                    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                    alert(`Proceeding to checkout!\n\nTotal: ₹${total.toFixed(2)}\n\nIn a real application, this would process payment.`);
+                    
+                    // Clear cart
+                    cart = [];
+                    updateCartDisplay();
+                    toggleCart();
+                });
+            }
+        });
+
+        // Favorites Array and Functions
+        let favorites = [];
+
+        // Load favorites from localStorage
+        function loadFavorites() {
+            const saved = localStorage.getItem('fashionhub_favorites');
+            if (saved) {
+                try {
+                    favorites = JSON.parse(saved);
+                    updateFavoritesDisplay();
+                } catch (e) {
+                    console.error('Error loading favorites:', e);
+                    favorites = [];
+                }
+            }
+        }
+
+        // Save favorites to localStorage
+        function saveFavorites() {
+            localStorage.setItem('fashionhub_favorites', JSON.stringify(favorites));
+        }
+
+        // Toggle Favorites Sidebar
+        function toggleFavorites() {
+            const sidebar = document.getElementById('favoriteSidebar');
+            const overlay = document.getElementById('favoriteOverlay');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Add to Favorites
+        function addToFavorites(event, name, price, image) {
+            event.stopPropagation();
+            
+            // Check if already in favorites
+            const existingItem = favorites.find(item => item.name === name);
+            
+            if (existingItem) {
+                // Remove if already exists
+                favorites = favorites.filter(item => item.name !== name);
+            } else {
+                // Add to favorites
+                const id = 'fav_' + Date.now();
+                favorites.push({
+                    id: id,
+                    name: name,
+                    price: price,
+                    image: image
+                });
+            }
+            
+            saveFavorites();
+            updateFavoritesDisplay();
+            
+            // Update heart icon visual state
+            const heartButtons = document.querySelectorAll('.heart-icon');
+            heartButtons.forEach(btn => {
+                if (btn.getAttribute('data-product-name') === name) {
+                    btn.classList.toggle('liked');
+                }
+            });
+            
+            // Show notification
+            if (existingItem) {
+                showNotification(`Removed "${name}" from wishlist`);
+            } else {
+                showNotification(`Added "${name}" to wishlist ❤️`);
+            }
+        }
+
+        // Update Favorites Display
+        function updateFavoritesDisplay() {
+            const favoriteItems = document.getElementById('favoriteItems');
+            
+            if (favorites.length === 0) {
+                favoriteItems.innerHTML = '<p class="text-muted text-center mt-3">No items in your wishlist</p>';
+            } else {
+                let html = '';
+                favorites.forEach(item => {
+                    html += `
+                        <div class="favorite-item">
+                            <img src="${item.image}" alt="${item.name}" class="favorite-item-image">
+                            <div class="favorite-item-details">
+                                <div class="favorite-item-name">${item.name}</div>
+                                <div class="favorite-item-price">₹${item.price.toFixed(2)}</div>
+                            </div>
+                            <button class="favorite-item-remove" onclick="removeFromFavorites('${item.id}')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+                favoriteItems.innerHTML = html;
+            }
+        }
+
+        // Remove from Favorites
+        function removeFromFavorites(id) {
+            const item = favorites.find(fav => fav.id === id);
+            if (item) {
+                favorites = favorites.filter(fav => fav.id !== id);
+                saveFavorites();
+                updateFavoritesDisplay();
+                
+                // Update heart icon visual state
+                const heartButtons = document.querySelectorAll('.heart-icon');
+                heartButtons.forEach(btn => {
+                    if (btn.getAttribute('data-product-name') === item.name) {
+                        btn.classList.remove('liked');
+                    }
+                });
+                
+                showNotification(`Removed "${item.name}" from wishlist`);
+            }
+        }
+
+        // Login Modal Functions
+        function closeLoginModal() {
+            const modal = document.getElementById('loginModal');
+            modal.classList.remove('active');
+        }
+
+        function openLoginModal() {
+            const modal = document.getElementById('loginModal');
+            modal.classList.add('active');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            // Basic validation
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+            
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+₹/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            // Simulate login
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters');
+                return;
+            }
+            
+            // Save login info if remember me is checked
+            if (rememberMe) {
+                localStorage.setItem('fashionhub_remembered_email', email);
+            } else {
+                localStorage.removeItem('fashionhub_remembered_email');
+            }
+            
+            // Store user session
+            const users = JSON.parse(localStorage.getItem('fashionhub_users') || '[]');
+            const userProfile = users.find(u => u.email === email);
+            localStorage.setItem('fashionhub_user', JSON.stringify({
+                email: email,
+                name: userProfile ? userProfile.name : email.split('@')[0],
+                loginTime: new Date().toISOString()
+            }));
+            
+            // Close modal and show success message
+            closeLoginModal();
+            updateNavbar();
+            showNotification(`Welcome, ${email.split('@')[0]}! Logged in successfully ✓`);
+            
+            // Reset form
+            document.getElementById('loginForm').reset();
+        }
+
+        function switchToSignup(event) {
+            event.preventDefault();
+            closeLoginModal();
+            openSignupModal();
+        }
+
+        function switchToLogin(event) {
+            event.preventDefault();
+            closeSignupModal();
+            openLoginModal();
+        }
+
+        // Signup Modal Functions
+        function closeSignupModal() {
+            const modal = document.getElementById('signupModal');
+            modal.classList.remove('active');
+        }
+
+        function openSignupModal() {
+            const modal = document.getElementById('signupModal');
+            modal.classList.add('active');
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+            
+            // Validation
+            if (!name || !email || !password || !confirmPassword) {
+                showNotification('Please fill in all fields');
+                return;
+            }
+            
+            if (name.length < 3) {
+                showNotification('Name must be at least 3 characters');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+₹/;
+            if (!emailRegex.test(email)) {
+                showNotification('Please enter a valid email address');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showNotification('Password must be at least 6 characters');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showNotification('Passwords do not match');
+                return;
+            }
+            
+            if (!agreeTerms) {
+                showNotification('Please agree to the Terms & Conditions');
+                return;
+            }
+            
+            // Check if user already exists
+            const existingUsers = JSON.parse(localStorage.getItem('fashionhub_users') || '[]');
+            if (existingUsers.some(user => user.email === email)) {
+                showNotification('This email is already registered. Please sign in instead.');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: 'user_' + Date.now(),
+                name: name,
+                email: email,
+                password: password, // In real app, this should be hashed!
+                createdAt: new Date().toISOString()
+            };
+            
+            // Store user account
+            existingUsers.push(newUser);
+            localStorage.setItem('fashionhub_users', JSON.stringify(existingUsers));
+            
+            // Auto-login the new user
+            localStorage.setItem('fashionhub_user', JSON.stringify({
+                id: newUser.id,
+                email: email,
+                name: name,
+            }));
+            
+            // Close modal and show success
+            closeSignupModal();
+            updateNavbar();
+            showNotification(`Account created successfully! Welcome, ${name}! ✓`);
+            
+            // Reset form
+            document.getElementById('signupForm').reset();
+        }
+
+        // Initialize favorites on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            loadFavorites();
+            updateNavbar();
+            
+            // Restore remembered email if exists
+            const rememberedEmail = localStorage.getItem('fashionhub_remembered_email');
+            if (rememberedEmail) {
+                document.getElementById('loginEmail').value = rememberedEmail;
+                document.getElementById('rememberMe').checked = true;
+            }
+            
+            // Update heart icons for already-favorited items
+            setTimeout(updateHeartIcons, 100);
+        });
+
+        // Update heart icon colors based on favorites
+        function updateHeartIcons() {
+            const heartButtons = document.querySelectorAll('.heart-icon');
+            heartButtons.forEach(btn => {
+                const productName = btn.getAttribute('data-product-name');
+                const isFavorited = favorites.some(item => item.name === productName);
+                if (isFavorited) {
+                    btn.classList.add('liked');
+                } else {
+                    btn.classList.remove('liked');
+                }
+            });
+        }
+
+        // Product Sorting Feature
+        function sortProducts(sortBy) {
+            const allProducts = document.querySelectorAll('.card');
+            const productsArray = Array.from(allProducts);
+            
+            switch(sortBy) {
+                case 'price-low':
+                    productsArray.sort((a, b) => {
+                        const priceA = parseFloat(a.querySelector('.text-primary')?.textContent.replace('₹', '') || 0);
+                        const priceB = parseFloat(b.querySelector('.text-primary')?.textContent.replace('₹', '') || 0);
+                        return priceA - priceB;
+                    });
+                    break;
+                case 'price-high':
+                    productsArray.sort((a, b) => {
+                        const priceA = parseFloat(a.querySelector('.text-primary')?.textContent.replace('₹', '') || 0);
+                        const priceB = parseFloat(b.querySelector('.text-primary')?.textContent.replace('₹', '') || 0);
+                        return priceB - priceA;
+                    });
+                    break;
+                case 'name':
+                    productsArray.sort((a, b) => {
+                        const nameA = a.querySelector('.card-title')?.textContent || '';
+                        const nameB = b.querySelector('.card-title')?.textContent || '';
+                        return nameA.localeCompare(nameB);
+                    });
+                    break;
+            }
+            
+            showNotification(`Products sorted by ${sortBy}`);
+        }
+
+        // User Profile View
+        function showUserProfile() {
+            const user = JSON.parse(localStorage.getItem('fashionhub_user'));
+            if (!user) {
+                showNotification('Please sign in first');
+                openLoginModal();
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('fashionhub_users') || '[]');
+            const userProfile = users.find(u => u.email === user.email);
+            
+            if (userProfile) {
+                alert(`👤 User Profile\n\nName: ${userProfile.name}\nEmail: ${userProfile.email}\nMember Since: ${new Date(userProfile.createdAt).toLocaleDateString()}\n\nFavorites: ${favorites.length}\nCart Items: ${cart.length}`);
+            }
+        }
+
+        // Get Cart Total
+        function getCartTotal() {
+            return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        }
+
+        // Get Cart Item Count
+        function getCartItemCount() {
+            return cart.reduce((count, item) => count + item.quantity, 0);
+        }
+
+        // Update Cart Display with better formatting
+        function updateCartDisplayEnhanced() {
+            const cartBadge = document.getElementById('cartBadge');
+            if (cartBadge) {
+                const itemCount = getCartItemCount();
+                cartBadge.textContent = itemCount;
+                cartBadge.style.display = itemCount > 0 ? 'inline-block' : 'none';
+            }
+            updateCartDisplay();
+        }
+
+        // Advanced Search with suggestions
+        function advancedSearch(query) {
+            const sections = ['products', 'mens', 'womens', 'kids', 'accessories', 'newarrivals', 'sales'];
+            const results = [];
+            
+            sections.forEach(section => {
+                const sectionElement = document.getElementById(section);
+                if (sectionElement) {
+                    const products = sectionElement.querySelectorAll('.card-title');
+                    products.forEach(product => {
+                        if (product.textContent.toLowerCase().includes(query.toLowerCase())) {
+                            results.push({
+                                name: product.textContent,
+                                section: section
+                            });
+                        }
+                    });
+                }
+            });
+            
+            return results;
+        }
+
+        // Product Comparison Tool
+        let comparisonList = [];
+
+        function addToComparison(productName) {
+            if (comparisonList.length >= 3) {
+                showNotification('You can compare up to 3 products at once');
+                return;
+            }
+            
+            if (!comparisonList.includes(productName)) {
+                comparisonList.push(productName);
+                showNotification(`${productName} added to comparison`);
+            }
+        }
+
+        function compareProducts() {
+            if (comparisonList.length === 0) {
+                showNotification('Please add products to compare');
+                return;
+            }
+            
+            alert(`📊 Comparison List:\n\n${comparisonList.map((p, i) => `${i + 1}. ${p}`).join('\n')}\n\nCompare features in the detailed view.`);
+        }
+
+        // Wishlist Statistics
+        function getWishlistStats() {
+            return {
+                totalItems: favorites.length,
+                totalValue: favorites.reduce((sum, item) => sum + item.price, 0),
+                averagePrice: favorites.length > 0 ? (favorites.reduce((sum, item) => sum + item.price, 0) / favorites.length) : 0
+            };
+        }
+
+        // View Wishlist Stats
+        function viewWishlistStats() {
+            const stats = getWishlistStats();
+            showNotification(`📊 Wishlist Stats: ${stats.totalItems} items | Value: ₹${stats.totalValue.toFixed(2)} | Avg: ₹${stats.averagePrice.toFixed(2)}`);
+        }
+
+        // Apply Discount Code
+        function applyDiscountCode(code) {
+            const discountCodes = {
+                'SAVE10': 0.10,
+                'SAVE20': 0.20,
+                'FASHIONHUB': 0.15,
+                'WELCOME': 0.10
+            };
+            
+            if (discountCodes[code.toUpperCase()]) {
+                const discount = discountCodes[code.toUpperCase()];
+                const total = getCartTotal();
+                const savings = total * discount;
+                showNotification(`✓ Coupon applied! You save ₹${savings.toFixed(2)}`);
+                return discount;
+            } else {
+                showNotification('❌ Invalid coupon code');
+                return 0;
+            }
+        }
+
+        // Track Order (Simulate)
+        function trackOrder(orderId) {
+            const statuses = ['Processing', 'Shipped', 'In Transit', 'Delivered'];
+            const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+            showNotification(`Order #${orderId}\nStatus: ${randomStatus}\nEstimated Delivery: 3-5 business days`);
+        }
+
+        // Newsletter Signup
+        function subscribeNewsletter(email) {
+            if (!email || !email.includes('@')) {
+                showNotification('Please enter a valid email');
+                return;
+            }
+            
+            localStorage.setItem('newsletter_email', email);
+            showNotification('✓ You are now subscribed to our newsletter!');
+        }
+
+        // Product Rating System
+        function rateProduct(productName, rating) {
+            if (rating < 1 || rating > 5) {
+                showNotification('Rating must be between 1 and 5');
+                return;
+            }
+            
+            const ratings = JSON.parse(localStorage.getItem('product_ratings') || '{}');
+            ratings[productName] = rating;
+            localStorage.setItem('product_ratings', JSON.stringify(ratings));
+            showNotification(`✓ Thanks for rating ${productName}: ${rating}⭐`);
+        }
+
+        // Check if User is Logged In
+        function isUserLoggedIn() {
+            return !!localStorage.getItem('fashionhub_user');
+        }
+
+        // Logout Function
+        function logoutUser() {
+            localStorage.removeItem('fashionhub_user');
+            cart = [];
+            favorites = [];
+            updateCartDisplay();
+            updateFavoritesDisplay();
+            updateNavbar();
+            showNotification('Logged out successfully. See you soon!');
+        }
+
+        // Update Navbar based on login status
+        function updateNavbar() {
+            const userNavItem = document.getElementById('userNavItem');
+            const user = JSON.parse(localStorage.getItem('fashionhub_user'));
+            
+            if (user) {
+                const displayName = user.name || user.email.split('@')[0];
+                userNavItem.innerHTML = `
+                    <a class="nav-link logout-link" href="#" onclick="logoutUser()">Logout</a>
+                `;
+            } else {
+                userNavItem.innerHTML = `<a class="nav-link" href="#signin" onclick="handleSignIn()"><i class="bi bi-person"></i></a>`;
+            }
+        }
+
+        // Update heart icons and cart on initial load
+        window.addEventListener('beforeunload', function() {
+            localStorage.setItem('fashionhub_cart', JSON.stringify(cart));
+        });
+    </script>
+</body>
+</html>
